@@ -4,37 +4,92 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>我是誰</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
   <style>
+    body{
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      background: url(./images/布幕.png);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-color: rgb(66, 5, 5);
+    }
+
     #game{
-      width: 80vh;
+      width: 80vw;
       height: 80vh;
-      border: 1px solid black;
+      /* border: 1px solid black; */
       overflow: hidden;
       position: relative;
+      cursor: url(./images/af320-b4cak-002.ico)50 50 ,auto;
+      position: absolute;
+      bottom: 0;
     }
-    #pika img,
-    #pika2 img,
-    #pika3 img{
+
+    #game img{
       height: 150px;
       position: absolute;
     }
-    .pika{
-      z-index: 99;
+    
+    .pika,
+    .pika2,
+    .pika3{
+      z-index: 1000;
+    }
+    p{
+      color: white;
+    }
+    #btn-start{
+      width: 10%;
+      background-color: rgb(248, 140, 17);
+      border: 1px solid rgb(117, 3, 3);
+      font-size: 2rem;
+      color: brown;
+      border-radius: 25%;
+      position: absolute;
+      left: 45%;
+      bottom: -10%; 
+      cursor: pointer;
+    }
+    #who{
+      width: 100vw;
+      height: 10vh;
+      position: relative;
+    }
+    .wHo{
+      width: 25%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: -10%;
+      transform: rotate(335deg);
+      text-align: center;
+      font-size: 3rem;
+      font-family: 'Noto Sans TC', sans-serif;
+      color: #ffb20b;
+    }
+    .fraction{
+      position: absolute;
+      right: 10%;
     }
   </style>
 </head>
 <body>
+  <div id="who">
+    <div class="wHo"><h1>我是誰❓</h1></div>
+    <br>
   <input type="button" value="開始遊戲" id="btn-start">
-  <br>
-  <p>分數: <span id="score">0</span>分</p>
+  <div class="fraction">
+  <p>目前分數: <span id="score">0</span>分</p>
   <p>剩餘: <span id="time">0</span>秒</p>
-  <hr>
-  <div id="game">
-    <div id="pika"></div>
-    <div id="pika2"></div>
-    <div id="pika3"></div>
-  </div>
+  <p>寶可夢大師:<span id="highname">???</span></p>
+  <p>最高分:<span id="highscore"></span></p>
+</div>
+</div>
+  <div id="game"></div>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="./jquery-3.6.0.min.js"></script>
   <script>
@@ -44,6 +99,62 @@
     let countdown = 30
     //計時器
     let timer = 0
+    //最高分
+    const high = { score: 0, name: '???' }
+    const storage = JSON.parse(localStorage.getItem('pokemon'))
+    //如果有資料
+    if(storage){
+        high.name=storage.name
+        high.score=storage.score
+        //修改最高分，顯示文字
+        $('#highname').text(high.name)
+        $('#highscore').text(high.score)
+      }
+
+
+    const move=(pika)=>{
+      //隨機移動
+      const top = `${Math.round(Math.random()*80)}%`
+      const left = `${Math.round(Math.random()*80)}%`
+      pika.stop().animate({
+        top:top,
+        //若json物件的值是變數，且跟key一樣時，可以這樣寫
+        //left:left=>left
+        left
+      },2000,function(){
+        //移動完後遞迴再動一次
+        move(pika)
+      })
+    }
+    const mo=(pika2)=>{
+      //隨機移動
+      const top = `${Math.round(Math.random()*70)}%`
+      const left = `${Math.round(Math.random()*70)}%`
+      pika2.stop().animate({
+        top:top,
+        //若json物件的值是變數，且跟key一樣時，可以這樣寫
+        //left:left=>left
+        left
+      },2000,function(){
+        //移動完後遞迴再動一次
+        mo(pika2)
+      })
+    }
+    const ve=(pika3)=>{
+      //隨機移動
+      const top = `${Math.round(Math.random()*70)}%`
+      const left = `${Math.round(Math.random()*70)}%`
+      pika3.stop().animate({
+        top:top,
+        //若json物件的值是變數，且跟key一樣時，可以這樣寫
+        //left:left=>left
+        left
+      },2000,function(){
+        //移動完後遞迴再動一次
+        ve(pika3)
+      })
+    }
+    
     
     $('#btn-start').click(function(){
       //停用開始按鈕
@@ -61,31 +172,33 @@
 
         //隨機產生剪影
         let random=Math.round(Math.random()*10)
-        if(random>5 && $("#pika .pika").length<5){
+        if(random>5 && $("#game").length<5){
           const top = `${Math.round(Math.random()*70)}%`
           const left = `${Math.round(Math.random()*70)}%`
           const pika = $(`<img class="pika" src ="./images/1-black.png" style="top:${top}; left:${left}">`)
-          $("#pika").append(pika)
+          $("#game").append(pika)
           move(pika)
-        }
-        if(random>5 && $("#pika2 .pika").length<5){
+          }
+          if(random>5 && $("#game").length<5){
           const top = `${Math.round(Math.random()*70)}%`
           const left = `${Math.round(Math.random()*70)}%`
-          const pika2 = $(`<img class="pika" src ="./images/2-black.png" style="top:${top}; left:${left}">`)
-          $("#pika2").append(pika2)
-          move(pika)
-        }
-        if(random>5 && $("#pika3 .pika").length<5){
+          const pika2 = $(`<img class="pika2" src ="./images/2-black.png" style="top:${top}; left:${left}">`)
+          $("#game").append(pika2)
+          mo(pika2)
+          }
+          if(random>5 && $("#game").length<5){
           const top = `${Math.round(Math.random()*70)}%`
           const left = `${Math.round(Math.random()*70)}%`
-          const pika3 = $(`<img class="pika" src ="./images/3-black.png" style="top:${top}; left:${left}">`)
-          $("#pika2").append(pika3)
-          move(pika)
-        }
+          const pika3 = $(`<img class="pika3" src ="./images/3-black.png" style="top:${top}; left:${left}">`)
+          $("#game").append(pika3)
+          ve(pika3)
+          }
+        
+        
         //時間到
         if(countdown<=0){
           clearInterval(timer)
-          $('#pika').remove()
+          $('#game img').remove()
           $('#btn-start').attr('disabled',false)
           Swal.fire({
             icon:'info',
@@ -95,6 +208,48 @@
         }
       },1000)
     })
+
+    $('#game').on('click','img',function(){
+      if($(this).hasClass('pika')){
+        $(this).attr('src','./images/1.png')
+        score++
+      }else if($(this).hasClass('pika2')){
+        $(this).attr('src','./images/2.png')
+        score++
+      }else if($(this).hasClass('pika3')){
+        $(this).attr('src','./images/3.png')
+        score-=2
+      }
+      $(this).stop()
+      $(this).css({
+        //無法點兩下選取
+        'user-select':'none',
+        //無法按住拖曳
+        '-webkit-user-drag':'none',
+        //忽略點擊事件
+        'pointer-events':'none'
+      })
+      $(this).removeClass('pika')
+      $(this).removeClass('pika2')
+      $(this).removeClass('pika3')
+      $('#score').text(score)
+    })
+
+    if (score > high.score) {
+        localStorage.setItem('pokemon', '請輸入名字')
+        //請玩家輸入名字
+        const input = prompt('最高分，請輸入名字')
+        //修改最高分變數資料
+        high.score = score
+        high.name = input || '???'
+        //修改最高分顯示文字
+        $('#highname').text(high.name)
+        $('#highscore').text(high.score)
+        //保存
+        //localStorage.setItme(資料名,文字)
+        //變數轉文字:JSON.stringify(變數)
+        localStorage.setItem('pokemon', JSON.stringify(high))
+      }
   </script>
 </body>
 </html>
