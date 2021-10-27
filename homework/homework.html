@@ -109,6 +109,11 @@
     let countdown = 30
     //計時器
     let timer = 0
+
+    //音效
+    const audio=new Audio()
+
+
     //最高分
     var high = { score: 0, name: '???' }
     const storage = JSON.parse(localStorage.getItem('pokemon'))
@@ -178,10 +183,13 @@
     $('#btn-start').click(function () {
       //停用開始按鈕
       $(this).attr('disabled', true)
+      //音效開始
+      audio.src='./皮卡丘之歌之皮卡四重奏.mp3'
+      audio.play()
       //重設
       score = 0
       $('#score').text(score)
-      countdown = 10
+      countdown = 30
       $('#time').text(countdown)
       //開始遊戲
       timer = setInterval(function () {
@@ -233,7 +241,12 @@
             left top
             no-repeat
           `
-          })
+          }
+          )
+
+          //音效關閉
+          audio.pause()
+          audio.currentTime = 0
 
           if (score > high.score) {
             localStorage.setItem('pokemon', '請輸入名字')
