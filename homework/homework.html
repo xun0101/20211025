@@ -103,18 +103,14 @@
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="./jquery-3.6.0.min.js"></script>
   <script>
-    //分數
     let score = 0
-    //倒數分數
     let countdown = 30
-    //計時器
     let timer = 0
 
-    //音效
     const audio=new Audio()
+    const au=new Audio()
 
 
-    //最高分
     var high = { score: 0, name: '???' }
     const storage = JSON.parse(localStorage.getItem('pokemon'))
     console.log(storage)
@@ -126,78 +122,58 @@
         })
       )
     }
-    //如果有資料
     if (storage) {
       high.name = storage.name
       high.score = storage.score
-      //修改最高分，顯示文字
       $('#highname').text(high.name)
       $('#highscore').text(high.score)
     }
 
 
     const move = (pika) => {
-      //隨機移動
       const top = `${Math.round(Math.random() * 80)}%`
       const left = `${Math.round(Math.random() * 80)}%`
       pika.stop().animate({
         top: top,
-        //若json物件的值是變數，且跟key一樣時，可以這樣寫
-        //left:left=>left
         left
       }, 2000, function () {
-        //移動完後遞迴再動一次
         move(pika)
       })
     }
     const mo = (pika2) => {
-      //隨機移動
       const top = `${Math.round(Math.random() * 70)}%`
       const left = `${Math.round(Math.random() * 70)}%`
       pika2.stop().animate({
         top: top,
-        //若json物件的值是變數，且跟key一樣時，可以這樣寫
-        //left:left=>left
         left
       }, 2000, function () {
-        //移動完後遞迴再動一次
         mo(pika2)
       })
     }
     const ve = (pika3) => {
-      //隨機移動
       const top = `${Math.round(Math.random() * 70)}%`
       const left = `${Math.round(Math.random() * 70)}%`
       pika3.stop().animate({
         top: top,
-        //若json物件的值是變數，且跟key一樣時，可以這樣寫
-        //left:left=>left
         left
       }, 2000, function () {
-        //移動完後遞迴再動一次
         ve(pika3)
       })
     }
 
 
     $('#btn-start').click(function () {
-      //停用開始按鈕
       $(this).attr('disabled', true)
-      //音效開始
       audio.src='./皮卡丘之歌之皮卡四重奏.mp3'
       audio.play()
-      //重設
       score = 0
       $('#score').text(score)
       countdown = 30
       $('#time').text(countdown)
-      //開始遊戲
       timer = setInterval(function () {
-        //倒數
         countdown--
         $('#time').text(countdown)
 
-        //隨機產生剪影
         let random = Math.round(Math.random() * 10)
         if (random > 5 && $("#game").length < 5) {
           const top = `${Math.round(Math.random() * 70)}%`
@@ -222,7 +198,6 @@
         }
 
 
-        //時間到
         if (countdown <= 0) {
           clearInterval(timer)
           $('#game img').remove()
@@ -244,23 +219,16 @@
           }
           )
 
-          //音效關閉
           audio.pause()
           audio.currentTime = 0
 
           if (score > high.score) {
             localStorage.setItem('pokemon', '請輸入名字')
-            //請玩家輸入名字
             const input = prompt('最高分，請輸入名字')
-            //修改最高分變數資料
             high.score = score
             high.name = input || '???'
-            //修改最高分顯示文字
             $('#highname').text(high.name)
             $('#highscore').text(high.score)
-            //保存
-            //localStorage.setItme(資料名,文字)
-            //變數轉文字:JSON.stringify(變數)
             localStorage.setItem('pokemon', JSON.stringify(high))
 
           }
@@ -277,15 +245,14 @@
         score++
       } else if ($(this).hasClass('pika3')) {
         $(this).attr('src', './images/3.png')
+        au.src='./鴨子呱音效.mp3'
+        au.play()
         score -= 2
       }
       $(this).stop()
       $(this).css({
-        //無法點兩下選取
         'user-select': 'none',
-        //無法按住拖曳
         '-webkit-user-drag': 'none',
-        //忽略點擊事件
         'pointer-events': 'none'
       })
       $(this).removeClass('pika')
