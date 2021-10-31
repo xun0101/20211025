@@ -82,6 +82,10 @@
       position: absolute;
       right: 10%;
     }
+    #footer{
+      position: absolute;
+      bottom: -10%;
+    }
   </style>
 </head>
 
@@ -100,6 +104,7 @@
     </div>
   </div>
   <div id="game"></div>
+  <div id="footer"><p>圖片版權歸寶可夢公司所有</p></div>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="./jquery-3.6.0.min.js"></script>
   <script>
@@ -230,7 +235,6 @@
             $('#highname').text(high.name)
             $('#highscore').text(high.score)
             localStorage.setItem('pokemon', JSON.stringify(high))
-
           }
         }
       }, 1000)
