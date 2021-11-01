@@ -109,7 +109,7 @@
   <script src="./jquery-3.6.0.min.js"></script>
   <script>
     let score = 0
-    let countdown = 30
+    let cd = 30
     let timer = 0
 
     const audio=new Audio()
@@ -173,11 +173,11 @@
       audio.play()
       score = 0
       $('#score').text(score)
-      countdown = 30
-      $('#time').text(countdown)
+      cd = 30
+      $('#time').text(cd)
       timer = setInterval(function () {
-        countdown--
-        $('#time').text(countdown)
+        cd--
+        $('#time').text(cd)
 
         let random = Math.round(Math.random() * 10)
         if (random > 5 && $("#game").length < 5) {
@@ -203,7 +203,7 @@
         }
 
 
-        if (countdown <= 0) {
+        if (cd <= 0) {
           clearInterval(timer)
           $('#game img').remove()
           $('#btn-start').attr('disabled', false)
