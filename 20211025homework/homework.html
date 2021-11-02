@@ -137,29 +137,29 @@
 
     const move = (pika) => {
       const top = `${Math.round(Math.random() * 80)}%`
-      const left = `${Math.round(Math.random() * 80)}%`
+      const left = `${Math.round(Math.random() * 90)}%`
       pika.stop().animate({
-        top: top,
+        top,
         left
       }, 2000, function () {
         move(pika)
       })
     }
     const mo = (pika2) => {
-      const top = `${Math.round(Math.random() * 70)}%`
-      const left = `${Math.round(Math.random() * 70)}%`
+      const top = `${Math.round(Math.random() * 80)}%`
+      const left = `${Math.round(Math.random() * 90)}%`
       pika2.stop().animate({
-        top: top,
+        top,
         left
       }, 2000, function () {
         mo(pika2)
       })
     }
     const ve = (pika3) => {
-      const top = `${Math.round(Math.random() * 70)}%`
-      const left = `${Math.round(Math.random() * 70)}%`
+      const top = `${Math.round(Math.random() * 80)}%`
+      const left = `${Math.round(Math.random() * 90)}%`
       pika3.stop().animate({
-        top: top,
+        top,
         left
       }, 2000, function () {
         ve(pika3)
@@ -209,6 +209,7 @@
           $('#btn-start').attr('disabled', false)
           console.log("high.score", high)
 
+          if(score>=0){
           Swal.fire({
             title:  '時間到',
             text: `你得到${score}分`,
@@ -222,7 +223,22 @@
             no-repeat
           `
           }
+          )}else{
+            Swal.fire({
+            title:`你得到${score}分`,
+            text: '加油好嗎?',
+            width: 600,
+            padding: '3em',
+            background: '#fff url(./images/main.png)no-repeat',
+            backdrop: `
+            rgba(0,0,123,0.4)
+            url(./images/brain-you-dumb.gif)
+            left top
+            no-repeat
+          `
+          }
           )
+          }
 
           audio.pause()
           audio.currentTime = 0
